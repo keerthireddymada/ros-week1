@@ -253,6 +253,7 @@ This node sends number 12 to a topic called `number` every second. It’s like a
        main()
    ```
 3. **What does this code do?**
+   - `class PublishNumber(Node)`: defines a custom ROS node that inherits from the base Node class. 
    - `rclpy.init(args=args)`: Starts the ROS 2 system.
    - `self.create_publisher(Int32, 'number', 10)`: Creates a publisher that sends `Int32` messages to the `number` topic.
    - `self.create_timer(timer_period, self.publish_number)`: Calls the `publish_number` function every timer_period seconds.
@@ -260,8 +261,9 @@ This node sends number 12 to a topic called `number` every second. It’s like a
    - `node.destroy_node()` and `rclpy.shutdown()`: Clean up when the node stops.
    - `self.publisher.publish(msg)`: Sends the `msg` to the topic associated with self.publisher which in this case is 'number' and the nodes subscribed to that topic will receive it.
    - `rclpy.shutdown()`: Cleans up and shuts down.
+   rclcpy is ROS 2 Python client library and Node is the base class we use to make our own ROS node
 
-    
+
 
 #### Subscriber Node (`subscriber_node.py`)
 This node listens to the `number` topic, calculates the square of the number, and prints it. It’s like a worker who listens to the shouted number and squares it and gives it.
@@ -297,8 +299,12 @@ This node listens to the `number` topic, calculates the square of the number, an
        main()
    ```
 3. **What does this code do?**
+   
+   - `class SubscribeNumber(Node)`: Inherits from base node class
    - `self.create_subscription(Int32, 'number', self.receive_message, 10)`: Subscribes to the `number` topic and calls `receive_message` when a message arrives.
    - `self.get_logger().info(...)`: Prints the received number and its square.
+   
+The callback function here is ` def publish_number(self)` which is like called to execute when a specific event occurs (e.g., message arrival, timer trigger).
 
 #### Build and Run the Nodes
 Here are the commands to build and run your publisher and subscriber nodes:
@@ -327,6 +333,9 @@ ros2 run my_node publisher
 # Run the subscriber node (in a new terminal)
 ros2 run my_node subscriber
 ```
+#### colcon_build
+It compiles all packages in your ROS 2 workspace, generating executables, build and log files. 
+
 
 #### Commands for Debugging
 ```
@@ -381,6 +390,30 @@ ros2 run turtle_controller square_movement (in second terminal)
 ros2 run turtle_controller pose_subscriber (in third terminal)
 ```
 
+## Repository structure: 
+
+```
+my_ws
+├── src
+│   ├── my_node
+│   │   ├── my_node
+│   │   ├── resource
+│   │   ├── test
+│   │   ├── package.xml
+│   │   ├── setup.cfg
+│   │   └── setup.py
+│   └── turtle_controller
+│       ├── resource
+│       ├── test
+│       ├── turtle_controller
+│       ├── package.xml
+│       ├── setup.cfg
+│       └── setup.py
+├── build
+├── install
+├── log
+```
+
 ## Resources that I used:
 [Articulated Robotics ROS Overview](https://articulatedrobotics.xyz/tutorials/ready-for-ros/ros-overview).
 
@@ -389,8 +422,6 @@ ros2 run turtle_controller pose_subscriber (in third terminal)
 [For understanding publisher and subscriber nodes](https://www.youtube.com/watch?v=VDotKYuKcVY&list=PLO89phzZmnHi5GCama8rS0kg3jcEXTq7I&index=4)
 
 [For basic understanding of actions](https://www.youtube.com/watch?v=wKC1znfJ4oM)
-
-
 
 ---
 
