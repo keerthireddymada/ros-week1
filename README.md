@@ -390,30 +390,6 @@ ros2 run turtle_controller square_movement (in second terminal)
 ros2 run turtle_controller pose_subscriber (in third terminal)
 ```
 
-## Repository structure: 
-
-```
-my_ws
-├── src
-│   ├── my_node
-│   │   ├── my_node
-│   │   ├── resource
-│   │   ├── test
-│   │   ├── package.xml
-│   │   ├── setup.cfg
-│   │   └── setup.py
-│   └── turtle_controller
-│       ├── resource
-│       ├── test
-│       ├── turtle_controller
-│       ├── package.xml
-│       ├── setup.cfg
-│       └── setup.py
-├── build
-├── install
-├── log
-```
-
 ## Resources that I used:
 [Articulated Robotics ROS Overview](https://articulatedrobotics.xyz/tutorials/ready-for-ros/ros-overview).
 
