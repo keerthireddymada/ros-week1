@@ -221,7 +221,7 @@ Then after asking ChatGPT, I understood that these issues are limitations in cur
 ---
 ## Summary
 
-- ROS 2 removed the ROS Master to create a scalable, modular, and robust system. Using DDS provides decentralized discovery, flexible QoS, and better fault tolerance.
+- I learnt that ROS 2 removed the ROS Master to create a scalable, modular, and robust system. Using DDS provides decentralized discovery, flexible QoS, and better fault tolerance.
 - I studied the basic differences between ROS1 and ROS2 in various aspects.
 - I studied the basics of ROS2 Communication including concepts like UDP, DDS, peer to peer discovery, QoS, how to write launch files.
 - I modified the publisher and the subscriber nodes - that I wrote before for publishing number where subscriber would take it and square it - by adding a suitable QoS profile to it.
@@ -229,4 +229,8 @@ Then after asking ChatGPT, I understood that these issues are limitations in cur
 ---
 ## Resources that I used
 
+[ROS1 vs ROS2](https://www.youtube.com/watch?v=yn638LmVwlw).
+[QoS](https://www.youtube.com/watch?v=xhwNmqPOXqU).
+[DDS](https://design.ros2.org/articles/ros_on_dds.html).
+[Creating Launch File](https://www.youtube.com/watch?v=xJ3WAs8GndA&t=704).
 
