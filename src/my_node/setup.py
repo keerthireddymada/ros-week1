@@ -1,4 +1,6 @@
 from setuptools import find_packages, setup
+#hence this too
+import os
 
 package_name = 'my_node'
 
@@ -10,6 +12,8 @@ setup(
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
+        #the line i added
+        (os.path.join('share', package_name, 'launch'), ['launch/node_launch.py']),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
