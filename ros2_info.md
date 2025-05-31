@@ -230,7 +230,10 @@ Then after asking ChatGPT, I understood that these issues are limitations in cur
 ## Resources that I used
 
 [ROS1 vs ROS2](https://www.youtube.com/watch?v=yn638LmVwlw).
+
 [QoS](https://www.youtube.com/watch?v=xhwNmqPOXqU).
+
 [DDS](https://design.ros2.org/articles/ros_on_dds.html).
+
 [Creating Launch File](https://www.youtube.com/watch?v=xJ3WAs8GndA&t=704).
 
