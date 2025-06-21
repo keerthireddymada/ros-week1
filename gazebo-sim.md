@@ -7,21 +7,37 @@
 ## Project Directory Structure (Essential Only)
 
 ME_WS/
+
 ├── src/
+
 │ └── me_bot/
+
 │ ├── launch/
+
 │ │ └── sim.launch.py
+
 │ ├── config/
+
 │ │ └── diff_drive_controller.yaml 
+
 │ ├── robot/
+
 │ │ └── me_bot.urdf.xacro 
+
 │ ├── rviz/
+
 │ │ └── me_rviz.rviz # RViz saved configuration
+
 │ ├── worlds/
+
 │ │ └── me_world.sdf
+
 │ ├── me_bot/
+
 │ │ └── obstacle_stopper.py 
+
 │ ├── package.xml
+
 │ └── setup.py 
 
 ---
