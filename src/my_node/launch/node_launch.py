@@ -3,13 +3,13 @@ from launch_ros.actions import Node
 
 def generate_launch_description():
     return LaunchDescription([
-        Node(
+        Node(           #publisher_node
             package='my_node',
             executable='publisher',  
             name='number_publisher',
             output='screen'
         ),
-        Node(
+        Node(           #subsciber_node
             package='my_node',
             executable='subscriber',  
             name='number_subscriber',
