@@ -1,0 +1,41 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <world name="me_world">
+
+    <!-- Ground and lighting -->
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+
+    <include>
+      <uri>model://sun</uri>
+    </include>
+
+    <!-- Wall in front of robot (0.5m tall, 1m wide, 0.05m thick) -->
+    <model name="wall">
+      <static>true</static>
+      <link name="link">
+        <pose>0 10 0 0 0 0</pose> <!-- x y z r p y -->
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>5.0 0.1 2.0</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>5.0 0.1 2.0</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 0 0 1</ambient>
+            <diffuse>1 0 0 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+  </world>
+</sdf>

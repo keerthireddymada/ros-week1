@@ -1,0 +1,46 @@
+diff_drive_controller:
+  type: diff_drive_controller/DiffDriveController
+  publish_rate: 50.0
+
+  left_wheel_names: ["left_front_wheel_joint", "left_rear_wheel_joint"]
+  right_wheel_names: ["right_front_wheel_joint", "right_rear_wheel_joint"]
+
+  wheel_separation: 0.5         # Distance between left and right wheels
+  wheel_radius: 0.12           # Match your URDF
+  wheel_separation_multiplier: 1.0
+  wheel_radius_multiplier: 1.0
+
+  use_stamped_vel: false
+  base_frame_id: base_link
+  odom_frame_id: odom
+
+  cmd_vel_timeout: 0.5
+  enable_odom_tf: true
+
+  pose_covariance_diagonal: [0.001, 0.001, 0.001, 0.0, 0.0, 0.03]
+  twist_covariance_diagonal: [0.001, 0.001, 0.001, 0.0, 0.0, 0.03]
+
+  open_loop: false
+
+  # Limits
+  linear:
+    x:
+      has_velocity_limits: true
+      max_velocity: 0.6         # m/s
+      min_velocity: -0.6
+      has_acceleration_limits: true
+      max_acceleration: 1.0     # m/s^2
+
+  angular:
+    z:
+      has_velocity_limits: true
+      max_velocity: 1.5         # rad/s
+      has_acceleration_limits: true
+      max_acceleration: 2.5     # rad/s^2
+
+  # Topics
+  publish_cmd: true
+  velocity_rolling_window_size: 10
+
+  # Feedback
+  use_feedback: true

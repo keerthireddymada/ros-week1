@@ -1,0 +1,23 @@
+{
+    "ros.distro": "humble",
+    "python.autoComplete.extraPaths": [
+        "/home/cloudycorn/my_ws/install/turtle_controller/lib/python3.10/site-packages",
+        "/home/cloudycorn/my_ws/install/my_node/lib/python3.10/site-packages",
+        "/home/cloudycorn/my_ws/install/me_bot/lib/python3.10/site-packages",
+        "/home/cloudycorn/me_ws/build/me_bot",
+        "/home/cloudycorn/me_ws/install/me_bot/lib/python3.10/site-packages",
+        "/home/cloudycorn/rover_ws/install/rover_control/lib/python3.10/site-packages",
+        "/opt/ros/humble/lib/python3.10/site-packages",
+        "/opt/ros/humble/local/lib/python3.10/dist-packages"
+    ],
+    "python.analysis.extraPaths": [
+        "/home/cloudycorn/my_ws/install/turtle_controller/lib/python3.10/site-packages",
+        "/home/cloudycorn/my_ws/install/my_node/lib/python3.10/site-packages",
+        "/home/cloudycorn/my_ws/install/me_bot/lib/python3.10/site-packages",
+        "/home/cloudycorn/me_ws/build/me_bot",
+        "/home/cloudycorn/me_ws/install/me_bot/lib/python3.10/site-packages",
+        "/home/cloudycorn/rover_ws/install/rover_control/lib/python3.10/site-packages",
+        "/opt/ros/humble/lib/python3.10/site-packages",
+        "/opt/ros/humble/local/lib/python3.10/dist-packages"
+    ]
+}

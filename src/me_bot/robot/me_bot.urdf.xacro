@@ -1,0 +1,258 @@
+<?xml version="1.0"?>
+<robot name="me_bot" xmlns:xacro="http://ros.org/wiki/xacro">
+
+<!-- Parameters -->
+<xacro:property name="chassis_length" value="0.6"/>
+<xacro:property name="chassis_width" value="0.5"/>
+<xacro:property name="chassis_height" value="0.3"/>
+<xacro:property name="wheel_radius" value="0.12"/>
+<xacro:property name="wheel_width" value="0.05"/>
+<xacro:property name="lidar_radius" value="0.08"/>
+<xacro:property name="lidar_height" value="${chassis_height/2 + 0.05}"/>
+<xacro:property name="camera_height" value="${chassis_height/2 + 0.05}"/>
+
+<!-- Visual Materials -->
+<material name="lavender">
+<color rgba="0.8 0.6 1.0 1.0"/>
+</material>
+
+<material name="black">
+<color rgba="0.1 0.1 0.1 1.0"/>
+</material>
+
+<!-- Base Link -->
+<link name="base_link">
+<visual>
+<geometry>
+<box size="${chassis_length} ${chassis_width} ${chassis_height}"/>
+</geometry>
+<material name="lavender"/>
+</visual>
+<collision>
+<geometry>
+<box size="${chassis_length} ${chassis_width} ${chassis_height}"/>
+</geometry>
+</collision>
+<inertial>
+<mass value="10"/>
+<origin xyz="0 0 0" rpy="0 0 0"/>
+<inertia ixx="0.1" ixy="0" ixz="0"
+iyy="0.1" iyz="0"
+izz="0.1"/>
+</inertial>
+</link>
+
+<!-- Gazebo color for base -->
+<gazebo reference="base_link">
+<material>Gazebo/Purple</material>
+</gazebo>
+
+<!-- Wheels -->
+<xacro:macro name="wheel" params="name x y">
+<link name="${name}">
+<visual>
+<origin xyz="0 0 0" rpy="1.5708 0 0"/>
+<geometry>
+<cylinder length="${wheel_width}" radius="${wheel_radius}"/>
+</geometry>
+<material name="black"/>
+</visual>
+<collision>
+<origin xyz="0 0 0" rpy="1.5708 0 0"/>
+<geometry>
+<cylinder length="${wheel_width}" radius="${wheel_radius}"/>
+</geometry>
+</collision>
+<inertial>
+<mass value="1"/>
+<origin xyz="0 0 0"/>
+<inertia ixx="0.001" ixy="0" ixz="0"
+iyy="0.001" iyz="0"
+izz="0.001"/>
+</inertial>
+</link>
+<joint name="${name}_joint" type="continuous">
+<parent link="base_link"/>
+<child link="${name}"/>
+<origin xyz="${x} ${y} -${chassis_height/2}" rpy="0 0 0"/>
+<axis xyz="0 1 0"/>
+</joint>
+<transmission name="${name}_trans">
+<type>transmission_interface/SimpleTransmission</type>
+<actuator name="${name}_motor">
+<mechanicalReduction>1</mechanicalReduction>
+</actuator>
+<joint name="${name}_joint">
+<hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+</joint>
+</transmission>
+<gazebo reference="${name}">
+<material>Gazebo/Black</material>
+<surface>
+  <friction>
+    <ode>
+      <mu>1.0</mu>
+      <mu2>1.0</mu2>
+    </ode>
+  </friction>
+</surface>
+</gazebo>
+</xacro:macro>
+
+<!-- Instantiate 4 wheels -->
+<xacro:wheel name="left_front_wheel" x="${chassis_length/2}" y="${chassis_width/2}"/>
+<xacro:wheel name="right_front_wheel" x="${chassis_length/2}" y="-${chassis_width/2}"/>
+<xacro:wheel name="left_rear_wheel" x="-${chassis_length/2}" y="${chassis_width/2}"/>
+<xacro:wheel name="right_rear_wheel" x="-${chassis_length/2}" y="-${chassis_width/2}"/>
+
+<!-- LIDAR -->
+<link name="lidar_link">
+<visual>
+<geometry>
+<cylinder length="0.05" radius="0.05"/>
+</geometry>
+<material name="black"/>
+</visual>
+</link>
+<joint name="lidar_joint" type="fixed">
+<parent link="base_link"/>
+<child link="lidar_link"/>
+<origin xyz="0 0 ${lidar_height}" rpy="0 0 0"/>
+</joint>
+
+<gazebo reference="lidar_link">
+<material>Gazebo/Black</material>
+<sensor type="ray" name="lidar_sensor">
+<pose>0 0 0 0 0 0</pose>
+<visualize>true</visualize>
+<update_rate>10</update_rate>
+<ray>
+    <scan>
+        <horizontal>
+         <samples>360</samples>
+         <resolution>1</resolution>
+         <min_angle>-3.14</min_angle>
+         <max_angle>3.14</max_angle>
+        </horizontal>
+    </scan>
+    <range>
+     <min>0.12</min>
+     <max>3.5</max>
+    </range>
+</ray>
+
+<plugin name="laser_plugin" filename="libgazebo_ros_ray_sensor.so">
+<ros>
+<namespace>/</namespace>
+<remapping>~/out:=/scan_laser</remapping>
+</ros>
+<frameName>lidar_link</frameName>
+<topicName>scan_laser</topicName>
+<output_type>sensor_msgs/LaserScan</output_type>
+</plugin>
+
+</sensor>
+</gazebo>
+
+<!-- Camera -->
+<link name="camera_link">
+<visual>
+<geometry>
+<box size="0.05 0.05 0.05"/>
+</geometry>
+<material name="black"/>
+</visual>
+</link>
+<joint name="camera_joint" type="fixed">
+<parent link="base_link"/>
+<child link="camera_link"/>
+<origin xyz="0.2 0 ${camera_height}" rpy="0 0 0"/>
+</joint>
+
+<gazebo reference="camera_link">
+<material>Gazebo/Black</material>
+<sensor type="camera" name="camera_sensor">
+<pose>0 0 0 0 0 0</pose>
+<visualize>true</visualize>
+<update_rate>30</update_rate>
+<camera>
+<horizontal_fov>1.39626</horizontal_fov>
+<image>
+<width>640</width>
+<height>480</height>
+<format>R8G8B8</format>
+</image>
+<clip>
+<near>0.1</near>
+<far>100</far>
+</clip>
+</camera>
+<plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+<cameraName>camera</cameraName>
+<imageTopicName>image_raw</imageTopicName>
+<cameraInfoTopicName>camera_info</cameraInfoTopicName>
+<frameName>camera_link</frameName>
+</plugin>
+</sensor>
+</gazebo>
+
+<link name="camera_fov">
+  <visual>
+    <geometry>
+      <cone radius="0.5" length="1.0"/>
+    </geometry>
+    <material name="fov_transparent"/>
+  </visual>
+</link>-
+
+<joint name="camera_fov_joint" type="fixed">
+  <parent link="camera_link"/>
+  <child link="camera_fov"/>
+  <origin xyz="0.1 0 0.05" rpy="0 0 1.5708"/> <!-- Rotate cone to face forward -->
+</joint> 
+
+<!-- Diff Drive Plugin -->
+<gazebo>
+<plugin name="wheel_drive_controller" filename="libgazebo_ros_diff_drive.so">
+
+<!-- Wheel Configuration -->
+<num_wheel_pairs>2</num_wheel_pairs>
+<left_joint>left_rear_wheel_joint</left_joint>
+<left_joint>left_front_wheel_joint</left_joint>
+<right_joint>right_front_wheel_joint</right_joint>
+<right_joint>right_rear_wheel_joint</right_joint>
+
+<!-- Physical Properties -->
+<wheel_separation>0.50</wheel_separation>
+<wheel_diameter>0.16</wheel_diameter>
+
+<ros>
+  <remapping>cmd_vel:=/cmd_vel</remapping>  <!-- FIXED -->
+</ros>
+<!-- Limits -->
+<max_wheel_torque>200</max_wheel_torque>
+<max_wheel_acceleration>10.0</max_wheel_acceleration>
+
+<!-- Output Frames -->
+<odometry_frame>odom</odometry_frame>
+<robot_base_frame>base_link</robot_base_frame>
+
+<!-- Publishing Options -->
+<publish_odom>true</publish_odom>
+<publish_odom_tf>true</publish_odom_tf>
+<publish_wheel_tf>true</publish_wheel_tf>
+
+<!-- Topic remapping (optional)
+<ros>
+<namespace>/</namespace>
+<argument>/cmd_vel:=cmd_vel</argument>
+<argument>/odom:=odom</argument>
+</ros>
+-->
+</plugin>
+</gazebo>
+
+</robot>
+
+
+
